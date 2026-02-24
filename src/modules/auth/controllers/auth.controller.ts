@@ -2,6 +2,8 @@ import { Controller, Post, Body, Res, UseGuards } from "@nestjs/common"
 import { LoginDto, RegisterUserEmployeeDto } from "../dto/auth.dto"
 import { AuthService } from "../services/auth.service"
 import { JwtAuthGuard } from "src/common/guards/jwt-auth.guards"
+import { RolesGuard } from "src/common/guards/roles-guard";
+import { Roles } from "src/common/decorator/roles-decorator";
 
 
 @Controller('auth')
@@ -24,7 +26,8 @@ export class AuthController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Post('register')
     async register(@Body() body: RegisterUserEmployeeDto, @Res() res:any) {
         try {
