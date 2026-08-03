@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { AuthService } from '../auth/services/auth.service';
 import { AuthController } from '../auth/controllers/auth.controller';
 import { AuthAdminController } from './controllers/auth-admin.controller';
+import { AuthRabbitConsumerService } from './services/auth-rabbit-consumer.service';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from '../auth/entities/user.entity'
 import { Role } from '../auth/entities/role.entity'
@@ -18,7 +19,7 @@ import 'dotenv/config'
     }),
     TypeOrmModule.forFeature([User, Role, Admin])
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthRabbitConsumerService],
   controllers: [AuthController, AuthAdminController],
   exports: [AuthService]
 })
